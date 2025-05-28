@@ -258,9 +258,6 @@ app.post("/delete", requireActiveSession, (req, res) => {
 });
 
 app.get("/edit", requireActiveSession, (req, res) => { // Protect with auth
-  // For a real edit, you'd likely pass the blog ID or title to fetch existing data
-  // e.g., /edit/:blogId or /edit?title=...
-  // For now, a generic edit page.
   res.render("edit.ejs", {
       message: req.session.editMessage || null,
       blogToEdit: null // Populate this if you're fetching a specific blog for editing
@@ -269,36 +266,31 @@ app.get("/edit", requireActiveSession, (req, res) => { // Protect with auth
 });
 
 
-app.post("/edit", requireActiveSession, (req, res) => { // Protect with auth
-  const originalTitle = req.body.OriginalBlogTitle?.trim().toLowerCase(); // Assuming you have a field for original title
-  const newTitle = req.body.EditedBlogTitle?.trim();
+app.post("/edit", requireActiveSession, (req, res) => {
+  const originalTitle = req.body.OriginalBlogTitle?.trim().toLowerCase();
   const newDesc = req.body.EditedBlogDesc?.trim();
 
-  if (!originalTitle || !newTitle || !newDesc) {
-    req.session.editMessage = "Original title, new title, and new description are required.";
-    return res.redirect("/edit"); // Or re-render with values
+  if (!originalTitle || !newDesc) {
+    req.session.editMessage = "Both fields are required.";
+    return res.redirect("/edit");
   }
 
-  // Ensure user can only edit their own blogs
-  const blogIndex = blogEntries.findIndex(
-    (entry) => entry.title.trim().toLowerCase() === originalTitle && entry.authorId === req.session.user.id
-  );
+  // Find the blog
+  const blog = blogEntries.find(b => b.title.trim().toLowerCase() === originalTitle);
 
-  if (blogIndex !== -1) {
-    blogEntries[blogIndex].title = newTitle;
-    blogEntries[blogIndex].description = newDesc; // Assuming 'description' is the field name
-    blogEntries[blogIndex].updatedAt = new Date();
-    req.session.editMessage = "Blog updated successfully!";
+  if (!blog) {
+    req.session.editMessage = "Blog not found! Create it first.";
+  } else if (blog.authorId !== req.session.user.id) {
+    req.session.editMessage = "You are not authorized to edit this blog.";
   } else {
-    const blogExists = blogEntries.some(entry => entry.title.trim().toLowerCase() === originalTitle);
-     if (blogExists) {
-      req.session.editMessage = "Blog not found or you are not authorized to edit it.";
-    } else {
-      req.session.editMessage = "Original blog not found!";
-    }
+    blog.description = newDesc;
+    blog.updatedAt = new Date();
+    req.session.editMessage = "Blog description updated successfully!";
   }
-  res.redirect("/edit"); // Redirect to GET /edit to show the message
+
+  res.redirect("/view");
 });
+
 
 app.post("/submit", requireActiveSession, (req, res) => {
   const { blogTitle, blogDesc } = req.body;
