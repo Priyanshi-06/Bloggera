@@ -264,7 +264,7 @@ app.post("/submit", requireActiveSession, (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).send('404 - Page Not Found');
 });
 
 app.use((err, req, res, next) => {
