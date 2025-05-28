@@ -148,6 +148,7 @@ form {
   box-shadow: 0 10px 10px #5c3d3d;
 }
 
+
 form label {
   display: block;
   font-weight: 600;
@@ -179,7 +180,7 @@ form button {
 
 form button:hover {
   text-shadow: 0.5px 0.5px 1px black;
-  background-color: #8a6363;
+  background-color: #624444;
 }
 
 .outer {
@@ -275,16 +276,17 @@ form button:hover {
 
 /* Unified style for sign-in and register forms */
 .entry {
-  background-color: #624444;
+  background-color: #9a7979;
   padding: 24px;
   border-radius: 10px;
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 4px #624444;
   width: 100%;
   max-width: 400px;
   color: black;
   margin: 40px auto;
   box-sizing: border-box;
 }
+
 
 .entry input[type="email"],
 .entry input[type="password"],
