@@ -263,15 +263,4 @@ app.post("/submit", requireActiveSession, (req, res) => {
   res.redirect("/view");
 });
 
-app.use((req, res) => {
-  res.status(404).send(`404 - Page Not Found`);
-});
-
-app.use((err, req, res, next) => {
-  console.error("Global Error Handler:", err.stack);
-  res.status(500).send(`Something went wrong: ${err.message}`);
-});
-
-
-
 export default app;
