@@ -269,11 +269,9 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error("Global Error Handler:", err.stack);
-  res.status(500).render("error", {
-    message: err.message || "Something went wrong!",
-    error: process.env.NODE_ENV === "development" ? err : {}
-  });
+  res.status(500).send(`Something went wrong: ${err.message}`);
 });
+
 
 
 export default app;
