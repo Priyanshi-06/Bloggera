@@ -267,7 +267,7 @@ app.get("/edit", requireActiveSession, (req, res) => { // Protect with auth
 
 
 app.post("/edit", requireActiveSession, (req, res) => {
-  const originalTitle = req.body.OriginalBlogTitle?.trim().toLowerCase();
+  const originalTitle = req.body.EditedBlogTitle?.trim().toLowerCase();  // fixed
   const newDesc = req.body.EditedBlogDesc?.trim();
 
   if (!originalTitle || !newDesc) {
@@ -276,20 +276,27 @@ app.post("/edit", requireActiveSession, (req, res) => {
   }
 
   // Find the blog
-  const blog = blogEntries.find(b => b.title.trim().toLowerCase() === originalTitle);
+  const blog = blogEntries.find((b) => 
+    b.title.trim().toLowerCase() === originalTitle
+  );
 
   if (!blog) {
     req.session.editMessage = "Blog not found! Create it first.";
-  } else if (blog.authorId !== req.session.user.id) {
-    req.session.editMessage = "You are not authorized to edit this blog.";
-  } else {
-    blog.description = newDesc;
-    blog.updatedAt = new Date();
-    req.session.editMessage = "Blog description updated successfully!";
+    return res.redirect("/edit");
   }
 
+  if (blog.authorId !== req.session.user?.id) {
+    req.session.editMessage = "You are not authorized to edit this blog.";
+    return res.redirect("/edit");
+  }
+
+  blog.description = newDesc;
+  blog.updatedAt = new Date();
+  req.session.editMessage = "Blog description updated successfully!";
+  
   res.redirect("/view");
 });
+
 
 
 app.post("/submit", requireActiveSession, (req, res) => {
@@ -309,5 +316,8 @@ app.post("/submit", requireActiveSession, (req, res) => {
   res.redirect("/view");
 });
 
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
-export default app;
+// export default app;
