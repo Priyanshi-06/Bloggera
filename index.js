@@ -159,7 +159,7 @@ app.post("/sign_in", (req, res) => {
     return res.render("sign_in", { message: "Invalid email or password.", email });
   }
   req.session.user = user;
-  const redirectTo = req.session.redirectTo || "/add_blog_form"; // Default to form after sign in
+  const redirectTo = req.session.redirectTo || "/add_blog"; // Default to form after sign in
   delete req.session.redirectTo;
   res.redirect(redirectTo);
 });
