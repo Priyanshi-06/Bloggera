@@ -1,11 +1,5 @@
 <%- include("./partials/header.ejs") %>
 
- <% if(message){%>
-    <script>
-        alert("<%= message %>");
-        window.location.href = "/view";
-    </script>
-<%}%>
 <div class="edit-blog">
   <form class="entry" action="/edit" method="POST" class="entry blog-form">
     <label for="EditedBlogTitle">Title of Blog to Edit:</label><br>
