@@ -136,7 +136,7 @@ app.post("/register", (req, res) => {
   const newUser = { id: Date.now().toString(), username, email, password };
   users.push(newUser);
   req.session.user = newUser;
-  const redirectTo = req.session.redirectTo || "/add_blog_form"; // Default to form after register
+  const redirectTo = req.session.redirectTo || "/add_blog"; // Default to form after register
   delete req.session.redirectTo;
   res.redirect(redirectTo);
 });
