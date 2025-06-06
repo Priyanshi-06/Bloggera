@@ -11,7 +11,6 @@
     <p>No blogs added yet.</p>
   <% } else { %>
     <div class="scroll-wrapper">
-      <button class="scroll-btn left" onclick="scrollBlogs(-1)">&#10094;</button>
 
       <div class="blog_container" id="blogScroll">
         <% for (var i = 0; i < blogs.length; i++) { %>
@@ -22,8 +21,6 @@
           </div>
         <% } %>
       </div>
-
-      <button class="scroll-btn right" onclick="scrollBlogs(1)">&#10095;</button>
     </div>
   <% } %>
 </div>
