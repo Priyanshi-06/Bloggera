@@ -58,4 +58,24 @@ nodemon app.js</code></pre>
   </li>
 </ol>
 
+---
+
+## 📌 Notes
+
+- Passwords are stored as plain text (for demo). Use hashing in production.
+- Memory-based session store is not production-safe. Replace with Redis or MongoDB store in real use.
+
+---
+
+## 🌐 Live Demo
+
+🚀 Check out the live app on Vercel:  
+🔗 https://bloggera-priyanshis-projects-29eb0687.vercel.app/
+
+---
+
+## 🧑‍🎓 Author
+
+Made with 💻 by [Priyanshi](https://github.com/Priyanshi-06)
+
 
