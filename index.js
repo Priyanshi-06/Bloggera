@@ -173,6 +173,9 @@ app.get("/logout", (req, res) => {
   });
 });
 
+app.get("/about",(req,res)=>{
+  res.render("about");
+});
 
 app.get("/add_blog", requireActiveSession, (req, res) => {
   // If you still want the "clear session for next GET" behavior AFTER this page is viewed
