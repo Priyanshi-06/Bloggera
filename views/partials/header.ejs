@@ -4,18 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   <title>Header</title>
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <!-- Fonts and Icons -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="/styles/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Roboto&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
+  <!-- Navbar -->
   <nav class="navbar"> 
     <div class="navbar_left">
-      <p class="logo">🄱𝗕 Bloggera</p>
+      <p class="typewriter logo">🄱𝗕 Bloggera</p>
     </div>
 
     <input type="checkbox" id="menu-toggle" class="menu-toggle" />
@@ -24,12 +28,75 @@
     </label>
 
     <div class="navbar_right">
-      <a href="/"><i class="fa-solid fa-house"></i> Home</a>
-      <a href="/view"><i class="fa-solid fa-eye"></i> View All</a>
-      <a href="/edit"><i class="fa-solid fa-pen"></i> Edit</a>
-      <a href="/delete"><i class="fa-solid fa-eraser"></i> Delete</a>
-      <a href="/about"><i class="fa-solid fa-circle-user"></i>About Me</a>
+      <a href="/" id="nav-home"><i class="fa-solid fa-house"></i> Home</a>
+      <a href="/add_blog" id="nav-add"><i class="fa-solid fa-plus"></i> Add Blog</a>
+      <a href="/view" id="nav-view"><i class="fa-solid fa-eye"></i> View All</a>
+      <a href="/edit" id="nav-edit"><i class="fa-solid fa-pen"></i> Edit</a>
+      <a href="/delete" id="nav-delete"><i class="fa-solid fa-eraser"></i> Delete</a>
+      <a href="/about" id="nav-about"><i class="fa-solid fa-circle-user"></i> About Me</a>
     </div>
   </nav>
+
+  <!-- Script to control which links are shown -->
+  <script>
+  const path = window.location.pathname;
+
+  const navHome = document.getElementById("nav-home");
+  const navAdd = document.getElementById("nav-add");
+  const navViewAll = document.getElementById("nav-view");
+  const navEdit = document.getElementById("nav-edit");
+  const navDelete = document.getElementById("nav-delete");
+  const navAbout = document.getElementById("nav-about");
+
+  function hideAll() {
+    navHome.style.display = "none";
+    navAdd.style.display = "none";
+    navViewAll.style.display = "none";
+    navEdit.style.display = "none";
+    navDelete.style.display = "none";
+    navAbout.style.display = "none";
+  }
+
+  hideAll();
+
+  if (path === "/") {
+    navAbout.style.display = "inline-block";
+    navViewAll.style.display = "inline-block";
+  } else if (path === "/add_blog") {
+    navHome.style.display = "inline-block";
+    navViewAll.style.display = "inline-block";
+    navEdit.style.display = "inline-block";
+    navDelete.style.display = "inline-block";
+    navAbout.style.display = "inline-block";
+  } else if (path === "/view") {
+    navHome.style.display = "inline-block";
+    navAdd.style.display = "inline-block";
+    navEdit.style.display = "inline-block";
+    navDelete.style.display = "inline-block";
+    navAbout.style.display = "inline-block";
+  } else if (path === "/edit") {
+    navHome.style.display = "inline-block";
+    navViewAll.style.display = "inline-block";
+    navAdd.style.display = "inline-block";
+    navDelete.style.display = "inline-block";
+    navAbout.style.display = "inline-block";
+  } else if (path === "/delete") {
+    navHome.style.display = "inline-block";
+    navViewAll.style.display = "inline-block";
+    navAdd.style.display = "inline-block";
+    navEdit.style.display = "inline-block";
+    navAbout.style.display = "inline-block";
+  } else if (path === "/about") {
+    navHome.style.display = "inline-block";
+    navViewAll.style.display = "inline-block";
+    navAdd.style.display = "inline-block";
+    navEdit.style.display = "inline-block";
+    navDelete.style.display = "inline-block";
+  } else if (path === "/sign_in" || path === "/register") {
+    navHome.style.display = "inline-block";
+    navAbout.style.display = "inline-block";
+  }
+</script>
+
 </body>
 </html>

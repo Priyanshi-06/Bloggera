@@ -115,31 +115,36 @@ app.get("/register", (req, res) => {
     delete req.session.redirectTo;
     return res.redirect(redirectTo);
   }
-  res.render("register", { message: req.query.message || null, username: req.query.username || "", email: req.query.email || "" });
+  res.render("register", {
+  message: req.query.message || null,
+  username: req.query.username || "",
+  email: req.query.email || "",
+  redirectTo: req.query.redirectTo || null});
 });
 
 app.post("/register", (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, redirectTo: bodyRedirect } = req.body;
   if (!username || !email || !password) {
-    return res.render("register", { message: "All fields are required.", username, email });
+    return res.render("register", { message: "All fields are required.", username, email, redirectTo: bodyRedirect });
   }
+
   const existingUser = users.find(user => user.email === email);
   if (existingUser) {
-    // Preserve redirectTo when redirecting
     let signInUrl = `/sign_in?message=${encodeURIComponent("Email already registered. Please sign in.")}&email=${encodeURIComponent(email)}`;
-    if(req.session.redirectTo) {
-        signInUrl += `&redirectTo=${encodeURIComponent(req.session.redirectTo)}`;
+    if (req.session.redirectTo || bodyRedirect) {
+      signInUrl += `&redirectTo=${encodeURIComponent(bodyRedirect || req.session.redirectTo)}`;
     }
     return res.redirect(signInUrl);
   }
-  // IMPORTANT: HASH PASSWORDS in a real application!
+
   const newUser = { id: Date.now().toString(), username, email, password };
   users.push(newUser);
   req.session.user = newUser;
-  const redirectTo = req.session.redirectTo || "/add_blog"; // Default to form after register
+  const redirectTo = bodyRedirect || req.session.redirectTo || "/add_blog";
   delete req.session.redirectTo;
   res.redirect(redirectTo);
 });
+
 
 app.get("/sign_in", (req, res) => {
   if (req.session.user) {
@@ -147,22 +152,25 @@ app.get("/sign_in", (req, res) => {
     delete req.session.redirectTo;
     return res.redirect(redirectTo);
   }
-  res.render("sign_in", { message: req.query.message || null, email: req.query.email || "" });
+  res.render("sign_in", {
+  message: req.query.message || null,
+  email: req.query.email || "",
+  redirectTo: req.query.redirectTo || null});
 });
 
 
 app.post("/sign_in", (req, res) => {
-  const { email, password } = req.body;
-  // IMPORTANT: Compare HASHED passwords in a real application!
+  const { email, password, redirectTo: bodyRedirect } = req.body;
   const user = users.find(u => u.email === email && u.password === password);
   if (!user) {
-    return res.render("sign_in", { message: "Invalid email or password.", email });
+    return res.render("sign_in", { message: "Invalid email or password.", email, redirectTo: bodyRedirect });
   }
   req.session.user = user;
-  const redirectTo = req.session.redirectTo || "/add_blog"; // Default to form after sign in
+  const redirectTo = bodyRedirect || req.session.redirectTo || "/add_blog";
   delete req.session.redirectTo;
   res.redirect(redirectTo);
 });
+
 
 app.get("/logout", (req, res) => {
   req.session.destroy(err => {
@@ -319,8 +327,8 @@ app.post("/submit", requireActiveSession, (req, res) => {
   res.redirect("/view");
 });
 
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
 
-export default app;
+// export default app;

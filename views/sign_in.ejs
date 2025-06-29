@@ -2,7 +2,7 @@
 
 <div class="form-page-container">
 
-  <h1 style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 30px; color: #070505; margin-bottom: 10px;">
+  <h1 style="text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 30px; color: #070505; margin-bottom: 5px;margin-top:50px;">
     Welcome Back 👋
   </h1>
   <% if (message) { %>
@@ -20,7 +20,7 @@
     <button type="submit">Sign In</button>
     <p style="text-align:center">
       Don't have an account? 
-      <a href="/register" style="text-decoration: none; color: black;">Register</a>.
+      <a href="/register<%= redirectTo ? '?redirectTo=' + encodeURIComponent(redirectTo) : '' %>" style="text-decoration: none; color: black;">Register</a>.
     </p>
   </form>
 </div>
